@@ -5,7 +5,6 @@ import redis
 import json
 import logg
 
-r = redis.StrictRedis(host='rm22930.eos.grid.sina.com.cn', port=22930, db=0)
 
 log = logg.get_logger()
 
