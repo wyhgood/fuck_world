@@ -2,11 +2,11 @@ import threading
 import logg
 import urllib2
 import os 
-
+import sys
 log = logg.get_logger()
 def download(url):
     try:
-        image_path = './images_to_test/'+url[-23:]
+        image_path = './images_to_test/'+url[-23:].strip()
         if os.path.exists(image_path):
             log.info("file exist!! " +image_path)
             return
@@ -40,6 +40,17 @@ def run(urls):
 
 
 if __name__=='__main__':
-    urls = ['http://n.sinaimg.cn/translate/20171113/BQRV-fynshev5746586.jpg','http://n.sinaimg.cn/translate/20171023/LwT2-fymzzpw0275380.jpg']
-    run(urls)
+    file_path = sys.argv[1]
+    f = open(file_path, 'r')
+    
+    lines = f.readlines()
+    step = 20
+    for i in range(len(lines)/20):
+        end = 20*(i+1)
+        start = 20*i
+        if end>len(lines): end = len(lines)
+        tasks = lines[start:end]
+        print('progress '+str(start)+'/'+str(end))
+        run(tasks)
+    f.close()
     
